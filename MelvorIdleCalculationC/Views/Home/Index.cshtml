@@ -1,0 +1,506 @@
+﻿@model MelvorIdleCalculationC.Models.MonsterStatsList
+@Styles.Render("~/Content/design.css")
+@using System.Linq;
+
+<script>
+    function calculate() {
+        if (checkInput()) {
+            GetCalculations();
+        }
+    }
+
+    function checkInput() {
+        var invalid = 0;
+
+        if ($("#HitPoints").val() == "" || $("#HitPoints").val() < 0) {
+            $("#HitPoints").css("border-color", "#df4646");
+            $("#HitPoints").css("border-width", "1px");
+            invalid += 1;
+        }
+        else {
+            $("#HitPoints").css("border-width", "0px");
+        }
+        if ($("#DamageReduction").val() == "" || $("#DamageReduction").val() < 0) {
+            $("#DamageReduction").css("border-color", "#df4646");
+            $("#DamageReduction").css("border-width", "1px");
+            invalid += 1;
+        }
+        else {
+            $("#DamageReduction").css("border-width", "0px");
+        }
+        if ($("#ID").val() == "") {
+            $("#SelectedMonster").css("border-width", "1px");
+            $("#SelectedMonster").css("border-color", "#df4646");
+            invalid += 1;
+        }
+        else {
+            $("#SelectedMonster").css("border-width", "0px");
+        }
+        if (invalid > 0) {
+            return false;
+        }
+        else {
+            return true;
+        }        
+    }
+
+    function opencalc() {
+        if ($("#calculations").is(":visible")) {
+            $("#calculations").hide();
+        }
+        else {
+            $("#calculations").show(); 
+        }
+    }
+
+    function GetMonster(id, dungeon, monster, maxHit, hitType) {
+
+        var par = {  
+            id: id,
+            dungeon: dungeon,
+            monster: monster,
+            maxHit: maxHit,
+            hitType: hitType,
+        };       
+
+        $.post("/Json/GetMonster", par, function (data) { 
+            $("#ID").val(data.ID);
+            $("#monsterName").text("Can you AFK " + data.SelectedMonster + "?");
+            $("#HitType").next().text(data.HitType);
+            $("#HitType").val(data.HitType);
+            $("#CalcHitType").next().text(data.HitType);
+            $("#MaxHit").next().text(data.MaxHit);
+            $("#MaxHit").val(data.MaxHit);
+            $("#CalcMaxHit").next().text(data.MaxHit);
+
+            RemoveSelectOptions($("#SelectedDungeon"), $("#SelectedMonster"), data.DungeonOption, data.MonsterOption);
+            AppendSelectOptions($("#SelectedDungeon"), $("#SelectedMonster"), data.DungeonOption, data.MonsterOption, data.SelectedDungeon, data.SelectedMonster);
+        });
+    }
+
+    function AppendSelectOptions(dungeon, monster, dungeonOption, monsterOption, selectedDungeon, selectedMonster) {
+        if (dungeonOption != undefined) {
+            if (selectedDungeon != "") {
+                var opts = document.createElement('option');
+                opts.value = 0;
+                opts.innerHTML = selectedDungeon;
+                dungeon.append(opts);
+            }  
+            var dungeonLength = dungeonOption.length;
+            for (var d = 0; d < dungeonLength; d++) {
+                var opt = document.createElement('option');
+                opt.value = dungeonOption[d].ID;
+                opt.innerHTML = dungeonOption[d].Title;
+                dungeon.append(opt);
+            }                      
+        }
+        if (monsterOption != undefined) {
+            if (selectedMonster != "") {
+                var opts2 = document.createElement('option');
+                opts2.value = 1;
+                opts2.innerHTML = selectedMonster;
+                monster.append(opts2);
+            }  
+            var monsterLength = monsterOption.length;
+            for (var m = 0; m < monsterLength; m++) {
+                var opt2 = document.createElement('option');
+                opt2.value = monsterOption[m].ID;
+                opt2.innerHTML = monsterOption[m].Title;
+                monster.append(opt2);
+            }                      
+        }
+    }
+
+    function RemoveSelectOptions(dungeon, monster, dungeonOption, monsterOption) {
+        if (dungeonOption != undefined) {
+            if (dungeon.find('option').length > 1) {
+                dungeon
+                    .find('option')
+                    .remove()
+                    .end()
+            }
+        }
+        if (monsterOption != undefined) {
+            if (monster.find('option').length > 1) {
+                monster
+                    .find('option')
+                    .remove()
+                    .end()
+            }
+        }
+    }
+
+    function GetCalculation(autoEat, equipType, hitPoints, damageReduction, maxHit, hitType) {
+
+        var par = {
+            autoEat: autoEat,
+            equipType: equipType,
+            hitPoints: hitPoints,
+            damageReduction: damageReduction, 
+            maxHit: maxHit,
+            hitType: hitType
+        }; 
+
+        $.post("/Json/GetCalculation", par, function (data) {
+
+            
+            $("[name = 'CalcEquipType']").text(data.EquipType);               
+            $("[name = 'CalcHitType']").text(data.HitType);
+            $("[name = 'CalcDrMultiplyer']").text(data.DrMultiplyer);
+            
+            $("[name = 'CalcDamageReduction']").text(data.DamageReduction);
+            $("[name = 'CalcTotalDamageReduction']").text(data.TotalDamageReduction);
+
+            $("[name = 'CalcMaxHitTolerance']").text(data.MaxHitTolerance);              
+            $("[name = 'CalcAutoEat']").text(data.AutoEat);
+            $("[name = 'CalcHitPoints']").text(data.HitPoints);
+            
+            $("[name = 'CalcMonsterMaxDmg']").text(data.MonsterMaxDmg); 
+            $("[name = 'CalcMaxHit']").text(data.MaxHit);
+
+            if (data.DrMultiplyer > 1) {
+                $("#DrMultiplyerSymbol").text(">");
+            }
+            else if (data.DrMultiplyer < 1) {
+                $("#DrMultiplyerSymbol").text("<");
+            }
+            else if (data.DrMultiplyer == 1){
+                $("#DrMultiplyerSymbol").text("=");
+            }
+            else {
+                $("#DrMultiplyerSymbol").text("");
+            }
+
+            switch (data.DrMultiplyer) {
+                case 1.25:
+                    $("[name = 'CalcDrMultiplyer']").css("background-color", "green")
+                    break;
+                case 0.85:
+                    $("[name = 'CalcDrMultiplyer']").css("background-color", "red")
+                    break;
+                default:
+                    $("[name = 'CalcDrMultiplyer']").css("background-color", "darkgrey")
+                    break;
+            }
+
+            if (data.Result) {
+                $("#resultEqualitySymbol").text("<")                
+            }
+            else {
+                $("#resultEqualitySymbol").text(">")
+            }
+
+            if (data.Result) {
+                $("#yesbutton").css("backgroundColor", "black");
+                $("#nobutton").css("backgroundColor", "#2d3748");
+            }
+            else if (!(data.Result)) {
+                $("#nobutton").css("backgroundColor", "black");
+                $("#yesbutton").css("backgroundColor", "#2d3748");
+            }
+            else {
+                $("#yesbutton").css("backgroundColor", "#2d3748");
+                $("#nobutton").css("backgroundColor", "#2d3748");
+            }
+        });
+    }
+</script>
+
+@using (Html.BeginForm())
+{
+@Html.HiddenFor(m => m.ID)
+<div class="renderbody_scroll">
+    <div class="header" style="background-color: silver">
+        <div id="header_image">
+            <img src="~/Resources/combat_header.svg" />
+        </div>
+        <div id="header_text">
+            Can you AFK?
+        </div>
+    </div>
+    <div style="padding: 40px">
+        <div class="box">
+            <div class="cmbox">
+                <div class="characterbox">
+                    <div>
+                        <div>Auto Eat Tier</div>
+                        <div>Equipment Type</div>
+                        <div>Hit Points</div>
+                        <div>Damage Reduction in %</div>
+                    </div>
+                    <div id="right" name="character">
+                        <div>@Html.DropDownListFor(c => c.AutoEat, Model.AutoEatOption, new { @class = "form-control"})</div>
+                        @Html.HiddenFor(c => c.AutoEat)
+                        <div>@Html.DropDownListFor(c => c.EquipType, Model.EquipTypeOption, new { @class = "form-control"})</div>
+                        @Html.HiddenFor(c => c.EquipType)
+                        <div>@Html.EditorFor(c => c.HitPoints, new { htmlAttributes = new { @class = "form-control", autocomplete = false } })</div>
+                        <div>@Html.EditorFor(c => c.DamageReduction, new { htmlAttributes = new { @class = "form-control", autocomplete = false } })</div>
+                    </div>
+                </div>
+                <div class="characterbox" id="monsterbox" name="monsterbox">
+                    <div>
+                        <div>Dungeon</div>
+                        <div>Monster</div>
+                        <div>MaxHit</div>
+                        <div>AttackType</div>
+                    </div>
+                    <div id="right" name="right">
+                        <div>@Html.DropDownListFor(m => m.SelectedDungeon, Model.DungeonOption, Model.SelectedDungeon, new { @class = "form-control", @onchange = "GetMonster($('#ID').val(), $('#SelectedDungeon').val(), null, $('#MaxHit').next().text(), $('#HitType').next().text())" })</div>  
+                        @Html.HiddenFor(m => m.SelectedDungeon)
+                        <div>@Html.DropDownListFor(m => m.SelectedMonster, Model.MonsterOption, Model.SelectedMonster, new { @class = "form-control", @onchange = "GetMonster($('#ID').val(), $('#SelectedDungeon').val(), $('#SelectedMonster').val(), $('#MaxHit').next().text(), $('#HitType').next().text())" })</div>                                                                                                                                                                            
+                        @Html.HiddenFor(m => m.SelectedMonster)
+                        @Html.HiddenFor(m => m.MaxHit)
+                        <div>@Html.DisplayFor(m => m.MaxHit)</div>
+                        @Html.HiddenFor(m => m.HitType)
+                        <div>@Html.DisplayFor(m => m.HitType)</div>
+                    </div>
+                </div>
+            </div>
+            <div class="calcbox">                
+                <div class="calcbox_buttons">
+                    <div style="width:200px"></div>
+                    <a href="javascript:GetCalculation($('#AutoEat').val(), $('#EquipType').val(), $('#HitPoints').val(), $('#DamageReduction').val(), $('#MaxHit').val(), $('#HitType').val())" class="button-green" style="padding:25px"><div>Calculate</div></a>
+                    <a href="javascript:opencalc()" class="button-green" id="ShowCalcButton" style="padding: 12px">Show Full<br />Calculation</a>
+                </div>
+                <div id="calculations" style="display:none">
+                    <table class="fixed">
+                        <colgroup>
+                            <col width="10" />
+                            <col width="581" />
+                            <col width="10" />
+                            <col width="559" />
+                            <col width="10" />
+                        </colgroup>
+                        <tr>
+                            <td></td>
+                            <td>
+                                <table class="fixed" style="background-color:darkslategray">
+                                    <colgroup>
+                                        <col width="156" />
+                                        <col width="60" />
+                                        <col width="60" />
+                                        <col width="60" />
+                                        <col width="156" />
+                                    </colgroup>
+                                    <tr>
+                                        <td colspan="5">Dr Multiplier Calculation</td>
+                                    </tr>
+                                    <tr><td height="40px"></td></tr>
+                                    <tr>
+                                        <td colspan="5"></td>
+                                    </tr>
+                                    <tr>
+                                        <td height="60px">Equiptype</td>
+                                        <td colspan="3">Dr Multiplier</td>
+                                        <td>Attacktype</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="calc-result-box" name="CalcEquipType"></td>
+                                        <td></td>
+                                        <td id="DrMultiplyerSymbol"></td>
+                                        <td></td>
+                                        <td class="calc-result-box" name="CalcHitType"></td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2"></td>
+                                        <td class="dr-multiplyer" name="CalcDrMultiplyer"></td>
+                                    </tr>
+                                </table>
+                            </td>
+                            <td></td>
+                            <td style="vertical-align: top">
+                                <table class="fixed" style="background-color:darkslategray">
+                                    <colgroup>
+                                        <col width="60" />
+                                        <col width="60" />
+                                        <col width="20" />
+                                        <col width="40" />
+                                        <col width="20" />
+                                        <col width="60" />
+                                        <col width="20" />
+                                        <col width="40" />
+                                        <col width="20" />
+                                        <col width="60" />
+                                        <col width="60" />
+                                    </colgroup>
+                                    <tr>
+                                        <td colspan="11">Damage Reduction Calculation</td>
+                                    </tr>
+                                    <tr><td height="40px"></td></tr>
+                                    <tr>
+                                        <td height="60px" colspan="3">Dr Base</td>
+                                        <td colspan="5">Dr Multiplier</td>
+                                        <td colspan="3">Dr Total</td>
+
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td class="calc-result-box" name="CalcDamageReduction"></td>
+                                        <td></td>
+                                        <td>x</td>
+                                        <td></td>
+                                        <td class="calc-result-box" name="CalcDrMultiplyer"></td>
+                                        <td></td>
+                                        <td>=</td>
+                                        <td></td>
+                                        <td class="calc-result-box" name="CalcTotalDamageReduction"></td>
+                                        <td></td>
+                                    </tr>
+                                </table>
+                            </td>
+                            <td></td>
+                        </tr>
+                        <tr><td height="10px"></td></tr>
+                        <tr>
+                            <td></td>
+                            <td colspan="3">
+                                <table class="fixed" style="background-color:darkslategray">
+                                    <colgroup>
+                                        <col width="20" />
+                                        <col width="160" />
+                                        <col width="20" />
+                                        <col width="20" />
+                                        <col width="20" />
+                                        <col width="160" />
+                                        <col width="20" />
+                                        <col width="20" />
+                                        <col width="20" />
+                                        <col width="20" />
+                                        <col width="50" />
+                                        <col width="20" />
+                                        <col width="20" />
+                                    </colgroup>
+                                    <tr>
+                                        <td colspan="13">Max Hit Tolerance Calculation</td>
+                                    </tr>
+                                    <tr><td height="40px"></td></tr>
+                                    <tr>
+                                        <td height="60px" colspan="3">MaxHitTol</td>
+                                        <td></td>
+                                        <td colspan="3">HitPoints</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td colspan="3">AutoEat</td>
+                                        <td colspan="3"></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td class="calc-result-box" name="CalcMaxHitTolerance"></td>
+                                        <td colspan="3">=</td>
+                                        <td class="calc-result-box" name="CalcHitPoints"></td>
+                                        <td colspan="3">x</td>
+                                        <td>(</td>
+                                        <td class="calc-result-box" name="CalcAutoEat"></td>
+                                        <td>)</td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr><td height="10px"></td></tr>
+                        <tr>
+                            <td></td>
+                            <td colspan="3">
+                                <table class="fixed" style="background-color:darkslategray">
+                                    <colgroup>
+                                        <col width="20" />
+                                        <col width="160" />
+                                        <col width="20" />
+                                        <col width="20" />
+                                        <col width="20" />
+                                        <col width="160" />
+                                        <col width="20" />
+                                        <col width="20" />
+                                        <col width="20" />
+                                        <col width="40" />
+                                        <col width="20" />
+                                        <col width="20" />
+                                        <col width="20" />
+                                        <col width="20" />
+                                        <col width="60" />
+                                        <col width="20" />
+                                        <col width="20" />
+                                        <col width="20" />
+                                        <col width="100" />
+                                        <col width="20" />
+                                    </colgroup>
+                                    <tr>
+                                        <td colspan="20">Max Monster Damage Calculation</td>
+                                    </tr>
+                                    <tr><td height="40px"></td></tr>
+                                    <tr>
+                                        <td height="60px" colspan="3">MaxDmg</td>
+                                        <td></td>
+                                        <td colspan="3">MaxHit</td>
+                                        <td colspan="6"></td>
+                                        <td colspan="5">Dr Total</td>
+                                        <td colspan="3"></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td class="calc-result-box" name="CalcMonsterMaxDmg"></td>
+                                        <td colspan="3">=</td>
+                                        <td class="calc-result-box" name="CalcMaxHit"></td>
+                                        <td></td>
+                                        <td>x</td>
+                                        <td></td>
+                                        <td>(1</td>
+                                        <td colspan="3">-</td>
+                                        <td>(</td>
+                                        <td class="calc-result-box" name="CalcTotalDamageReduction"></td>
+                                        <td colspan="3">/</td>
+                                        <td>100))</td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr><td height="10px"></td></tr>
+                        <tr>
+                            <td></td>
+                            <td>
+                                <table class="fixed" style="background-color:darkslategray">
+                                    <colgroup>
+                                        <col width="20" />
+                                        <col width="160" />
+                                        <col width="20" />
+                                        <col width="20" />
+                                        <col width="20" />
+                                        <col width="160" />
+                                        <col width="20" />
+                                    </colgroup>
+                                    <tr>
+                                        <td colspan="11">Result</td>
+                                    </tr>
+                                    <tr><td height="40px"></td></tr>
+                                    <tr>
+                                        <td height="60px" colspan="3">Max Damage</td>
+                                        <td></td>
+                                        <td colspan="3">Max Hit Tol</td>
+
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td class="calc-result-box" name="CalcMonsterMaxDmg"></td>
+                                        <td></td>
+                                        <td id="resultEqualitySymbol"></td>
+                                        <td></td>
+                                        <td class="calc-result-box" name = "CalcMaxHitTolerance"></td>
+                                        <td></td>                                        
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="resultbox">
+                <div id="monsterName">Can you AFK @Html.DisplayFor(m => m.SelectedMonster)?</div>
+                <div id="buttons">
+                    <div id="yesbutton" style="border-bottom-left-radius: 50px; border-top-left-radius: 50px; padding-right: 200px">Yes</div>
+                    <div id="spacer"></div>
+                    <div id="nobutton" style="border-bottom-right-radius: 50px; border-top-right-radius: 50px; padding-left:200px">No</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+}

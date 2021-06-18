@@ -1,0 +1,114 @@
+﻿@model MelvorIdleCalculationC.Models.EditListModel
+<script>
+    $(function () {
+        var body = $("#renderbody");
+        var scroll = $("#Scroll");
+
+        if (scroll.val() == "False") {
+            body.attr("class", "renderbody");
+        }
+    });
+
+    function resetDropdown(dropdown) {
+        var ddl;
+        var selectedValue;
+        if (dropdown == 1) {
+            ddl = document.getElementById("Dungeon");
+            selectedValue = ddl.options[ddl.selectedIndex];
+            selectedValue.removeAttribute("selected");
+        }
+        else {
+            ddl = document.getElementById("Monster");
+            selectedValue = ddl.options[ddl.selectedIndex];
+            selectedValue.removeAttribute("selected");
+        }
+    }
+
+    function Sort(sortBy) {       
+        $("#SortBy").val(sortBy);             
+        document.forms[0].submit();
+    }
+</script>
+@using (Html.BeginForm())
+{
+    @Html.HiddenFor(m => m.Scroll)
+    @Html.HiddenFor(m => m.SortBy)
+    <div class="renderbody_scroll" id="renderbody">
+        <div class="header" style="background-color: mediumseagreen">
+            <div id="header_image">
+                <img src="~/Resources/statistics_header.svg" />
+            </div>
+            <div id="header_text">
+                All Monsters
+            </div>
+        </div>
+        <div style="padding: 40px">
+            <div class="box">
+                <div class="createbox">                    
+                    <div>                      
+                        <div style="justify-content: center">
+                            <a class="button-orange" href="/Home/Index">
+                                <img src="~/Resources/run.svg" style="height: 30px" />
+                                <div>
+                                    Back to <br />
+                                    Calculator
+                                </div>
+                            </a>
+                        </div>
+                        <div style="justify-content: center">
+                            <input class="button-green" type="submit" title="Filter" value="Filter" style="border-width: 0px; font-size: 20px" />
+                        </div>                      
+                        <div style="justify-content: center">
+                            <div>
+                                Dungeon
+                            </div>
+                            <div>
+                                @Html.DropDownListFor(m => m.Dungeon, Model.DungeonOptions, new { @class = "form-control", @onchange = "resetDropdown(0)" })
+                            </div>
+                        </div>
+                        <div style="justify-content: center">
+                            <div>
+                                Monster
+                            </div>
+                            <div>
+                                @Html.DropDownListFor(m => m.Monster, Model.MonsterOptions, new { @class = "form-control", @onchange = "resetDropdown(1)" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div style="height:40px"></div>
+                <div class="creatbox_blanc">
+                    <div class="createbox">
+                        <div class="list_tr">
+                            <table width="100%">
+                                <colgroup>
+                                    <col width="180"/>
+                                    <col width="120" /> <!--Dungeon-->
+                                    <col width="230"/>
+                                    <col width="120" /> <!--Monster-->
+                                    <col width="120"/>
+                                    <col width="120" /> <!--Max Hit-->
+                                    <col width="60"/>
+                                    <col width="120" /> <!--Attack Type-->
+                                </colgroup>
+                                <tr>
+                                    <td><a href="/Home/EditList"><img src="~/Resources/statistics_header.svg" style="width: 20px; height: 20px"/></a></td>
+                                    <td id="sort_dungeon" onclick="Sort(0)">Dungeon</td>
+                                    <td></td>
+                                    <td id="sort_monster" onclick="Sort(1)">Monster</td>
+                                    <td></td>
+                                    <td id="sort_hit" onclick="Sort(2)">Max Hit</td>
+                                    <td></td>
+                                    <td id="sort_type" onclick="Sort(3)">Attack Type</td>
+                                    <td></td>                                    
+                                </tr>
+                            </table>                           
+                        </div>
+                        <div style="margin: 20px"></div>
+                        @Html.EditorFor(m => m.MonstersList)
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}

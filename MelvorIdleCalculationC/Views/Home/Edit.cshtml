@@ -1,0 +1,77 @@
+﻿@model MelvorIdleCalculationC.Models.MonsterStatsList
+@Styles.Render("~/Content/design.css")
+@Scripts.Render("~/bundles/modernizr")
+<script>
+    function changeEditIndexHref() {
+        var id = $("#ID").val();
+        $("#indexEdit").attr("href", "/Home/Index/" + id);
+    }
+    function changeEditDeleteHref() {
+        var id = $("#ID").val();
+        $("#deleteEdit").attr("href", "/Home/Delete/" + id);
+    }
+</script>
+@using (Html.BeginForm())
+{
+    @Html.HiddenFor(m => m.ID)
+
+    <div class="renderbody">
+        <div class="header" style="background-color: silver">
+            <div id="header_image">
+                <img src="~/Resources/settings_header.svg" />
+            </div>
+            <div id="header_text">
+                Edit a Monster
+            </div>
+        </div>
+        <div style="padding: 40px">
+            <div class="box">
+                <div class="createbox">
+                    <div>
+                        <div>
+                            <div>Dungeon</div>
+                            <div>
+                                @Html.EditorFor(m => m.SelectedDungeon, new { htmlAttributes = new { @class = "form-control", autocomplete = "off" } })
+                            </div>
+                        </div>
+                        <div>
+                            <div>Monster</div>
+                            <div>
+                                @Html.EditorFor(m => m.SelectedMonster, new { htmlAttributes = new { @class = "form-control", autocomplete = "off" } })
+                            </div>
+                        </div>
+                        <div>
+                            <div>Maximum Hit</div>
+                            <div>
+                                @Html.EditorFor(m => m.MaxHit, new { htmlAttributes = new { @class = "form-control", autocomplete = "off" } })
+                            </div>
+                        </div>
+                        <div>
+                            <div>Attack Type</div>
+                            <div>
+                                @Html.EditorFor(m => m.HitType, new { htmlAttributes = new { @class = "form-control", autocomplete = "off" } })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="buttonbox">
+                    <div>
+                        <a class="button-orange" id="indexEdit" href="" onclick="changeEditIndexHref()">
+                            <img src="~/Resources/run.svg" style="height: 30px" />
+                            <div>
+                                Back to <br />
+                                Calculator
+                            </div>
+                        </a>
+                    </div>
+                    <div>
+                        <input type="submit" value="Save" class="button-blue" style="border-width: 0px; font-size: 20px"  />
+                    </div>
+                    <div>
+                        <a class="button-red" id="deleteEdit" href="" onclick="changeEditDeleteHref()">Delete Monster</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}

@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11, 8.5" name="MelvorIdleCalculation">
+  <DataContextMoniker Name="/MelvorIdleCalculationDataContext" />
+  <nestedChildShapes>
+    <classShape Id="fe16954f-de4d-4f6a-a144-f9a8f8fc2c6c" absoluteBounds="2.875, 0.875, 1.5, 1.9631982421875">
+      <DataClassMoniker Name="/MelvorIdleCalculationDataContext/Monster" />
+      <nestedChildShapes>
+        <elementListCompartment Id="e7b33cee-5a12-4b2e-8b36-db4414fdff85" absoluteBounds="2.89, 1.335, 1.4700000000000002, 1.4031982421875" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+  </nestedChildShapes>
+</ordesignerObjectsDiagram>

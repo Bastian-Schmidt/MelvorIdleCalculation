@@ -1,0 +1,65 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title Melvor Idle AFK Calculator</title>
+    @Styles.Render("~/Content/design.css")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryval")
+    @{ }
+</head>
+<body>
+    <script>
+        function changeLayoutIndexHref() {
+            var id = $("#ID").val();
+
+            if (id != undefined) {
+                $("#indexLayout").attr("href", "/Home/Index/" + id);
+            } 
+            else {
+                $("#indexLayout").attr("href", "/Home/Index");
+            }
+        }
+        function changeLayoutEditHref() {
+            var id = $("#ID").val();
+
+            if (id != undefined) {
+                $("#editLayout").attr("href", "/Home/Edit/" + id);
+            }   
+            else {
+                $("#editLayout").attr("href", "/Home/Edit");
+            }
+        }
+    </script>    
+    <div>
+        <div class="navbarbox">
+            <div>
+                <img src="../../Resources/logo.svg" />
+                <div>Melvor Idle</div>
+            </div>
+            <ul>
+                <li>
+                    <a class="navbarbutton" id="indexLayout" href="" onclick="changeLayoutIndexHref()">Afk Calculator</a>
+                </li>
+                <li>
+                    <a class="navbarbutton" id="editLayout" href="" onclick="changeLayoutEditHref()">Edit Monster</a>
+                </li>
+                <li>
+                    <a class="navbarbutton" href="/Home/EditList">List of Monsters</a>
+                </li>
+                <li>
+                    <a class="navbarbutton" href="/Home/Create">Create new Monster</a>
+                </li>
+            </ul>
+        </div>
+        <div>
+            @RenderBody()
+        </div>
+    </div>
+    
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

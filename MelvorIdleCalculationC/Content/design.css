@@ -1,0 +1,465 @@
+﻿* {
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+    font-family: "SFMono", sans-serif;
+    color: whitesmoke;
+}
+
+::-webkit-scrollbar {
+    width: 1vw;
+    background-color: #2d3748;
+}
+
+::-webkit-scrollbar-button {
+    height: 60px;
+    background-color: #2d3748;
+}
+
+::-webkit-scrollbar-track {
+    background-color: #4a5568;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #2d3748;
+    border-radius: 40px
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #2d3748;
+}
+
+table.fixed {
+    table-layout: fixed;
+    border-radius: 10px;
+    padding: 40px;
+}
+
+table.fixed td {
+    text-align: center;
+}
+
+.navbarbox {
+    display: flex;
+    flex-direction: column;
+    background-color: #2c343f;
+    width: 288px;
+    height: 100vh;
+    position: fixed;
+}
+
+.navbarbox >div {
+    display: flex;
+    flex-flow: row nowrap;
+    align-content: center;
+    background-color: #323942;
+    padding: 10px 20px;
+    font-weight: bold;
+    font-size: larger;
+    margin-bottom: 60px;
+}
+
+.navbarbox > div > img {
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
+}
+
+.navbarbutton {
+    display: block;
+    background-color: #2c343f;
+    color: whitesmoke;
+    text-align: center;
+    padding: 22px 30px;
+    text-decoration: none;
+    width: 15vw;
+    height: 62px;
+}
+
+.navbarbutton:hover {
+    background-color: #323942;
+    cursor: pointer;
+}
+
+.renderbody {
+    margin-left: 15vw!important;
+    height: 100vh;
+    width: 85vw;
+    background-image: url('../Resources/bg_woodcutting3.jpg');
+}
+
+.renderbody_scroll {
+    margin-left: 15vw !important;
+    height: 100%;
+    width: 84vw;
+    background-image: url('../Resources/bg_woodcutting3.jpg');
+}
+
+.header {
+    display: flex;
+    flex-flow: row nowrap;
+    padding: 10px 40px;
+    width: 100%;
+}
+
+.header > div > img {
+    width: 30px;
+    height: 30px;
+}
+
+#header_image {
+    width: 40px;
+    height: 40px;
+    background-color: whitesmoke;
+    border-radius: 10px;
+    text-align:center;
+    padding-top: 5px;
+    margin-right: 20px;
+}
+
+#header_text {
+    font-size: 35px;
+    color: whitesmoke;
+}
+
+.box {
+    width: 100%;
+    background-color: #2d3748;
+    border-radius: 10px;
+    padding: 100px;
+}
+
+.cmbox {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.characterbox {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    background-color: #4a5568;
+    padding: 40px;
+    border-radius: 10px;
+    width: 40%;
+    height: 30vh;
+}
+
+.characterbox >div {
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: space-between;
+    color: white;
+    font-size: 20px;
+}
+ 
+#right {
+    align-items: flex-end;
+}
+
+.resultbox {
+    display: flex;
+    flex-flow: column nowrap;
+    background-color: #4a5568;
+    padding: 40px 300px;
+    border-radius: 10px;
+    margin-top: 40px;
+    align-items: center;
+    font-size: 30px;
+}
+
+.calcbox {
+    display: flex;
+    flex-flow: column nowrap;
+    background-color: #4a5568;
+    padding: 40px 40px;
+    border-radius: 10px;
+    margin-top: 40px;
+    font-size: 30px;
+}
+
+.calcbox_buttons {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+}
+
+#buttons {
+    display: flex;
+    flex-flow: row nowrap;
+    margin-top: 40px;
+}
+
+.resultbox > div > div {
+    background-color: #2d3748;
+    padding: 30px 150px;
+}
+
+#yesbutton:hover {
+    background-color: black;
+}
+
+#nobutton:hover {
+    background-color: black;
+}
+
+#spacer {
+    padding: 30px 1px;
+    background-color: black;
+}
+
+.creatbox_blanc {
+    background-color: #4a5568;
+    padding: 40px;
+    border-radius: 10px;
+    font-size: 20px;
+}
+
+.createbox {
+    background-color: #4a5568;
+    padding: 40px;
+    border-radius: 10px;
+    font-size: 20px;
+}
+
+.createbox > div {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-around;
+}
+
+.createbox > div > div {
+    display: flex;
+    flex-flow: column nowrap;
+    text-align: center;
+}
+
+.createbox > div > div > div {
+    margin: 5px;
+}
+
+.createbutton {
+    display: flex;
+    flex-flow: row nowrap;
+    background-color: #4a5568;
+    padding: 40px;
+    border-radius: 10px;
+    font-size: 20px;
+    margin-top: 40px;
+    width: 383.3px;
+}
+
+.createbuttonback {
+    padding-top: 10px;
+}
+
+.createbuttonback > a {
+    background-color: #2d3748;
+    color: whitesmoke;
+    padding: 10px 20px;
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+    text-decoration: none;
+    border-width: 0px;
+    height: 40px;
+}
+
+.createbuttonback > a:hover {
+    background-color: black;
+}
+
+#createspacer {
+    background-color: black;
+    padding: 9.7px .5px;
+}
+
+.createbuttonsubmit {
+    font-size: 20px;
+    background-color: #2d3748;
+    color: whitesmoke;
+    border-width: 0px;
+    padding: 9.7px 20px;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+    width: 100px;
+}
+
+.createbuttonsubmit:hover {
+    background-color: black;
+}
+
+.deletebutton {
+    font-size: 20px;
+    background-color: #2d3748;
+    color: whitesmoke;
+    border-width: 0px;
+    padding: 9.7px 20px;
+    border-radius: 20px;
+    width: 100px;
+}
+
+.deletebutton:hover {
+    background-color: black;
+}
+
+.form-control {
+    background-color: #2d3748;
+    border-width: 0px;
+    text-align: center;
+    padding: 10px 10px;
+    border-radius: 5px;
+    font-size: 15px;
+}
+
+.buttonbox {
+    display: flex;
+    flex-flow: column nowrap;
+    background-color: #4a5568;
+    border-radius: 10px;
+    font-size: 19px;
+    margin-top: 40px;
+    justify-content: space-between;
+    align-content: center;
+    width: 240px;
+    height: 290px;
+    padding: 20px;
+}
+
+.button-red {
+    display: block;
+    color: #fff;
+    background-color: #e56767;
+    border-color: #e56767;
+    border-radius: 10px;
+    padding: 8px 16px;
+    width: 200px;
+    height: 70px;
+    padding-top: 24px;
+    text-align: center;
+    text-decoration: none;
+}
+
+.button-red:hover {
+    background-color: #df4646;
+    border-color: #df4646;
+}
+
+.button-orange {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-evenly;
+    align-content: center;
+    color: #fff;
+    background-color: #e5ae67;
+    border-color: #e5ae67;
+    border-radius: 10px;
+    width: 200px;
+    height: 70px;
+    vertical-align: middle;
+    text-align: center;
+    text-decoration: none;
+    padding: 14px 20px;
+}
+
+.button-orange:hover {
+    background-color: #df9d46;
+    border-color: #df9d46;
+}
+
+.button-blue {
+    display: block;
+    color: #fff;
+    background-color: #5179d6;
+    border-color: #5179d6;
+    border-radius: 10px;
+    padding: 8px 16px;
+    width: 200px;
+    height: 70px;
+    vertical-align: middle;
+    text-align: center;
+    text-decoration: none;
+}
+
+.button-blue:hover {
+    background-color: #3261cf;
+    border-color: #3261cf;
+}
+
+.button-green {
+    display: block;
+    color: #fff;
+    background-color: #30c78d;
+    border-color: #30c78d;
+    border-radius: 10px; 
+    padding: 8px 16px;
+    width: 200px;
+    height: 70px;
+    vertical-align: middle;
+    text-align: center;
+    text-decoration: none;
+    font-size: 20px;
+}
+
+.button-green:hover {
+    background-color: #29a877;
+    border-color: #29a877;
+}
+
+.calc-result-box {
+    background-color: #2d3748;
+    border-radius: 10px;
+    padding: 4px;
+    height: 42px;
+}
+
+.dr-multiplyer {
+    background-color: darkgrey;
+    border-radius: 10px;
+    padding: 4px;
+    height: 42px;
+}
+
+.list_tr {
+    text-align: center;
+    background-color: #2d3748;
+    border-radius: 4px;
+    padding: 4px;
+}
+
+    #sort_dungeon {        
+        border-radius: 20px;
+        padding: 2px 0px;
+    }
+
+        #sort_dungeon:hover {
+            background-color: #4a5568;
+        }
+
+    #sort_monster {
+        border-radius: 20px;
+        padding: 2px 0px;
+    }
+
+        #sort_monster:hover {
+            background-color: #4a5568
+        }
+
+    #sort_hit {
+        border-radius: 20px;
+        padding: 2px 0px;
+    }
+
+        #sort_hit:hover {
+            background-color: #4a5568
+        }
+
+    #sort_type {
+        border-radius: 20px;
+        padding: 2px 0px;
+    }
+
+        #sort_type:hover {
+            background-color: #4a5568
+        }

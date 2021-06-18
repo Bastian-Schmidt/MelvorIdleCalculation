@@ -1,0 +1,63 @@
+﻿@model MelvorIdleCalculationC.Models.MonsterStatsList
+@Styles.Render("~/Content/design.css")
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="renderbody">
+        <div class="header" style="background-color: indianred">
+            <div id="header_image">
+                <img src="~/Resources/crafting.svg" />
+            </div>
+            <div id="header_text">
+                Create a new Monster
+            </div>
+        </div>
+        <div style="padding: 40px">
+            <div class="box">
+                <div class="createbox">
+                    <div>
+                        <div>
+                            <div>Dungeon</div>
+                            <div>
+                                @Html.EditorFor(model => model.SelectedDungeon, new { htmlAttributes = new { @class = "form-control", autocomplete = "off" } })
+                            </div>
+                        </div>
+                        <div>
+                            <div>Monster</div>
+                            <div>
+                                @Html.EditorFor(model => model.SelectedMonster, new { htmlAttributes = new { @class = "form-control", autocomplete = "off" } })
+                            </div>
+                        </div>
+                        <div>
+                            <div>Maximum Hit</div>
+                            <div>
+                                @Html.EditorFor(model => model.MaxHit, new { htmlAttributes = new { @class = "form-control", autocomplete = "off" } })
+                            </div>
+                        </div>
+                        <div>
+                            <div>Attack Type</div>
+                            <div>
+                                @Html.EditorFor(model => model.HitType, new { htmlAttributes = new { @class = "form-control", autocomplete = "off" } })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="buttonbox" style="height: 200px">
+                    <div>
+                        <a class="button-orange" href="/Home/Index">
+                            <img src="~/Resources/run.svg" style="height: 30px" />
+                            <div>
+                                Back to <br />
+                                Calculator
+                            </div>
+                        </a>
+                    </div>
+                    <div>
+                        <input type="submit" value="Create" class="button-blue" style="border-width: 0px; font-size: 20px" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>    
+}

@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="MelvorIdleCalculation" Class="MelvorIdleCalculationDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="WebSettings" ConnectionString="Data Source=DESKTOP-IU7LT50;Initial Catalog=MelvorIdleCalculation;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="MelvorIdleCalculationConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.Monsters" Member="Monsters">
+    <Type Name="Monster">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Dungeon" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="Monster" Member="Monster1" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="MaxHit" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="HitType" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="Sort" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </Type>
+  </Table>
+</Database>
